@@ -83,10 +83,10 @@ class INC_ENCODER
 {
 	public:
 		INC_ENCODER(void);      // constructor
-		bool begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Dist_per_mm);
+		int32_t begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Dist_per_mm);
 		uint64_t GetTimerCounter(void);
 		uint64_t GetDistance(void);
-		uint32_t GetSpeed(void);
+		int32_t GetSpeed(void);
 		void ResetCounter(void);
 	private:
 		TIM_Encoder_InitTypeDef encoder;
@@ -94,11 +94,11 @@ class INC_ENCODER
 		float c;
 		uint32_t counter;
 		uint32_t msb;
-		uint32_t previous_counter;
+		//uint32_t previous_counter;
 		uint32_t previous_msb;
 		uint64_t previous_distance=0;;
-		uint32_t previous_time;
-		uint32_t distance;
+		uint64_t previous_time;
+		uint64_t distance;
 		uint32_t Max_Cnt;
 		TIM_TypeDef *_tim;
 };

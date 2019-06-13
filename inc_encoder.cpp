@@ -2,8 +2,13 @@
 #include "analog.h"
 #include "timer.h"
 
+//#define DEBUG(x,y)	Serial.print(x); Serial.println(y)
+#define DEBUG(x,y)
+static PinName g_ch1_pin = NC;
+static PinName g_ch2_pin = NC;
+
 INC_ENCODER::INC_ENCODER(void) {};
-bool INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Dist_per_mm)
+int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Dist_per_mm)
 {
 	c=Dist_per_mm;
 	distance=0;
@@ -14,21 +19,25 @@ bool INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Dist_
 
 	PinName pch1 = digitalPinToPinName(Pin_Channel1);
 	PinName pch2 = digitalPinToPinName(Pin_Channel2);
-
+	DEBUG("pch1=",pch1);
+	DEBUG("pch2=",pch2);
+	ResetCounter();
 	// 1. Chack if both pins exist
 	if((pch1!=NC)&&(pch2!=NC))
 	{
+		g_ch1_pin = pch1;
+		g_ch2_pin = pch2;
 	// 2. Check if timer handler is the same for both pins
 		if(pin_in_pinmap(pch1, PinMap_INC_ENC))
 			pch1_tim=(TIM_TypeDef *)pinmap_peripheral(pch1, PinMap_INC_ENC);
 		if(pin_in_pinmap(pch1, PinMap_INC_ENC))
 			pch2_tim=(TIM_TypeDef *)pinmap_peripheral(pch2, PinMap_INC_ENC);
 		if(pch1_tim!=pch2_tim)
-			return false;	// exit if handler is different
+			return 1;	// exit if handler is different
 
 		if((pch1_tim==TIM2)||(pch1_tim==TIM5))
 			Max_Cnt = 2^32;
-		if((pch1_tim==TIM3)||(pch1_tim==TIM4))
+		if((pch1_tim==TIM1)||(pch1_tim==TIM3)||(pch1_tim==TIM4)||(pch1_tim==TIM8))
 			Max_Cnt = 2^16;
 		_tim = pch1_tim; // store the timer instance
 	// 3. initialize timer for inc encoder mode
@@ -52,14 +61,16 @@ bool INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Dist_
 
 		if (HAL_TIM_Encoder_Init(&timer, &encoder) != HAL_OK) {
 			Error_Handler();
+			return 2;
 		}
 
 		if(HAL_TIM_Encoder_Start_IT(&timer,TIM_CHANNEL_1)!=HAL_OK){
 			Error_Handler();
-		return true;
+			return 2;
 		}
+		return 0;
 	}
-	return false;
+	return 3;
 }
 
 uint64_t INC_ENCODER::GetTimerCounter(void) {
@@ -67,6 +78,7 @@ uint64_t INC_ENCODER::GetTimerCounter(void) {
 		msb++;		// increment number of step
 	counter = _tim->CNT; 
 	return msb*Max_Cnt + counter;
+	//return counter;
 }
 
 uint64_t INC_ENCODER::GetDistance(void) {
@@ -74,15 +86,16 @@ uint64_t INC_ENCODER::GetDistance(void) {
 	return distance;
 }
 
-uint32_t INC_ENCODER::GetSpeed(void) {
+int32_t INC_ENCODER::GetSpeed(void) {
 	uint32_t speed=0;
 	distance = GetTimerCounter() * c;
-	uint32_t time=millis();
+	//DEBUG("ENC::GetSpeed:distance=",distance);
+	uint64_t time=millis();
 	if(previous_distance!=0) {
 		speed = (distance - previous_distance) / (time-previous_time);
 	}
 	previous_distance = distance;
-	previous_distance = time;
+	previous_time = time;
 	return speed;
 }
 
@@ -114,15 +127,14 @@ int main(void) {
 	}
 }
 */
-static PinName g_ch1_pin = NC;
-static PinName g_ch2_pin = NC;
 
 void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim) {
 	GPIO_InitTypeDef GPIO_InitStruct;
 	GPIO_TypeDef *port;
-
 	uint32_t function_ch1 = pinmap_function(g_ch1_pin, PinMap_INC_ENC);
 	uint32_t function_ch2 = pinmap_function(g_ch2_pin, PinMap_INC_ENC);
+	// DEBUG("g_ch1_pin=",g_ch1_pin);
+	// DEBUG("g_ch2_pin=",g_ch1_pin);
 	/*##-1- Enable peripherals and GPIO Clocks #################################*/
 	/* TIMx Peripheral clock enable */
 	timer_enable_clock(htim);
@@ -145,9 +157,9 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim) {
 	GPIO_InitStruct.Alternate 	= STM_PIN_AFNUM(function_ch2);
 	HAL_GPIO_Init(port, &GPIO_InitStruct);
 	
-	HAL_NVIC_SetPriority(TIM3_IRQn, 0, 1);
+	HAL_NVIC_SetPriority(TIM1_IRQn, 0, 1);
 
-	HAL_NVIC_EnableIRQ(TIM3_IRQn);
+	HAL_NVIC_EnableIRQ(TIM1_IRQn);
 }
 
 /*
