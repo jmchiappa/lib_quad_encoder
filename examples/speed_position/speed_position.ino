@@ -10,10 +10,10 @@ INC_ENCODER h;
 #define RISING_EDGE  true
 #define FALLING_EDGE false
 
-#define GEN_CH1 12
-#define GEN_CH2 13
+#define GEN_CH1 14
+#define GEN_CH2 15
 Transient button;
-
+bool led=false;
 void setPulse(int chA, int chB) {
     digitalWrite(chA,HIGH);
     digitalWrite(chB,LOW);
@@ -31,7 +31,8 @@ void setPulse(int chA, int chB) {
 
 void Pulse(int channel)
 {
-  digitalWrite(13,!digitalRead(13));
+  led=!led;
+  digitalWrite(13,led);
   if(digitalRead(2)){
     setPulse(GEN_CH1,GEN_CH2);
   }else{
@@ -50,7 +51,7 @@ void setup() {
 	}
   pinMode(13,OUTPUT);
 
-  pinMode(2,INPUT);
+  pinMode(2,INPUT_PULLUP);
   pinMode(GEN_CH1,OUTPUT);
   pinMode(GEN_CH2,OUTPUT);
   button.begin(23 , FALLING_EDGE, INPUT);
@@ -62,14 +63,14 @@ void loop() {
 //	uint64_t d = h.GetDistance();
 //	if(previous_time!=0) {
     if(button.detect()) {
-      Pulse(2);
+		Pulse(2);
   		Serial.print("rincr=");
-  		Serial.print((uint16_t)h.GetTimerCounter());
-  		Serial.print("\tdist=");
+  		Serial.println((int32_t)h.GetTimerCounter());
+/*  		Serial.print("\tdist=");
   		Serial.print(h.GetDistance());
   		Serial.print("\tspeed=");
   		Serial.println(h.GetSpeed());
-  //	}
+*/  //	}
   //	previous_distance = d;
   //	previous_time = time;
     }

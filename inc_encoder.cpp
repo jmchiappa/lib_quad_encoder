@@ -2,10 +2,12 @@
 #include "analog.h"
 #include "timer.h"
 
-//#define DEBUG(x,y)	Serial.print(x); Serial.println(y)
+//#define DEBUG(x,y)	Serial.print(x); Serial.print(y)
 #define DEBUG(x,y)
 static PinName g_ch1_pin = NC;
 static PinName g_ch2_pin = NC;
+
+const char *dbg_str[]={"Avance","Recule"};
 
 INC_ENCODER::INC_ENCODER(void) {};
 int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Dist_per_mm)
@@ -36,9 +38,9 @@ int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Di
 			return 1;	// exit if handler is different
 
 		if((pch1_tim==TIM2)||(pch1_tim==TIM5))
-			Max_Cnt = 2^32;
+			Max_Cnt = 1<<32;
 		if((pch1_tim==TIM1)||(pch1_tim==TIM3)||(pch1_tim==TIM4)||(pch1_tim==TIM8))
-			Max_Cnt = 2^16;
+			Max_Cnt = 1<<16;
 		_tim = pch1_tim; // store the timer instance
 	// 3. initialize timer for inc encoder mode
 		timer.Instance = pch1_tim;	// get the linked timer
@@ -73,15 +75,40 @@ int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Di
 	return 3;
 }
 
-uint64_t INC_ENCODER::GetTimerCounter(void) {
-	if(counter> _tim->CNT)	// roll over ?
-		msb++;		// increment number of step
-	counter = _tim->CNT; 
-	return msb*Max_Cnt + counter;
+int64_t INC_ENCODER::GetTimerCounter(void) {
+	bool roll=false;
+	DEBUG("\nENTREE : direction=",dbg_str[dir]);
+	DEBUG("-counter=",counter);
+	DEBUG("-_tim->CNT=",_tim->CNT);
+	DEBUG("-msb=",msb);
+	if(_tim->CNT!=counter) {
+		if((int32_t)(counter - _tim->CNT)>(int32_t)(Max_Cnt>>1)) {	// roll over ?
+			msb++;		// increment number of step
+			roll=true;
+		}
+		if((int32_t)(_tim->CNT - counter)>(int32_t)(Max_Cnt>>1)) {	// roll over ?
+			DEBUG("(int32_t)(_tim->CNT - counter)=",(int32_t)(_tim->CNT - counter));
+			msb--;
+			roll=true;
+		}
+		if(roll==false) { // timer counter has not roll over
+			if(_tim->CNT>counter)
+				dir=FORWARD;
+			if(_tim->CNT<counter)
+				dir=BACKWARD;
+		}
+		counter = _tim->CNT; 
+	}
+	DEBUG("\nSORTIE : direction=",dbg_str[dir]);
+	DEBUG("-counter=",counter);
+	DEBUG("-_tim->CNT=",_tim->CNT);
+	DEBUG("-msb*Max_Cnt=",msb*Max_Cnt);
+	DEBUG("","\n");
+	return msb*(int64_t)Max_Cnt + counter;
 	//return counter;
 }
 
-uint64_t INC_ENCODER::GetDistance(void) {
+int64_t INC_ENCODER::GetDistance(void) {
 	distance = GetTimerCounter() * c;
 	return distance;
 }
@@ -100,11 +127,12 @@ int32_t INC_ENCODER::GetSpeed(void) {
 }
 
 void INC_ENCODER::ResetCounter(void) {
+	_tim->CNT=0;
 	counter=0;
 	msb=0;
 	previous_distance=0;
 	previous_time =0;
-	_tim->CNT=0;
+	dir=BACKWARD;
 }
 
 /*
