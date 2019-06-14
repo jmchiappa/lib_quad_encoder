@@ -109,21 +109,22 @@ int64_t INC_ENCODER::GetTimerCounter(void) {
 }
 
 int64_t INC_ENCODER::GetDistance(void) {
-	distance = GetTimerCounter() * c;
+	DEBUG("c=",c);
+	distance = (float)GetTimerCounter() * c;
 	return distance;
 }
 
 int32_t INC_ENCODER::GetSpeed(void) {
-	uint32_t speed=0;
-	distance = GetTimerCounter() * c;
+	int32_t speed=0;
+	distance = GetTimerCounter();
 	//DEBUG("ENC::GetSpeed:distance=",distance);
 	uint64_t time=millis();
 	if(previous_distance!=0) {
-		speed = (distance - previous_distance) / (time-previous_time);
+		speed = 1000*((float)(distance - previous_distance) / (float)(time-previous_time));
 	}
 	previous_distance = distance;
 	previous_time = time;
-	return speed;
+	return speed*c;
 }
 
 void INC_ENCODER::ResetCounter(void) {
@@ -185,9 +186,9 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim) {
 	GPIO_InitStruct.Alternate 	= STM_PIN_AFNUM(function_ch2);
 	HAL_GPIO_Init(port, &GPIO_InitStruct);
 	
-	HAL_NVIC_SetPriority(TIM1_IRQn, 0, 1);
+//	HAL_NVIC_SetPriority(TIM1_IRQn, 0, 1);
 
-	HAL_NVIC_EnableIRQ(TIM1_IRQn);
+//	HAL_NVIC_EnableIRQ(TIM1_IRQn);
 }
 
 /*

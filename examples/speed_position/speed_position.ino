@@ -2,7 +2,7 @@
 #include "inc_encoder.h"
 
 INC_ENCODER h;
-#define INCREMENT	1 //85 / 800 // 85 mm par tour de 800 pas
+#define INCREMENT	 85.0/800.0 // 85 mm par tour de 800 pas
 
 //uint32_t previous_time=0;
 //uint64_t previous_distance;
@@ -42,7 +42,7 @@ void Pulse(int channel)
 
 void setup() {
   ;
-	Serial.begin(9600);
+	Serial.begin(115200);
   int32_t ret=h.begin(7,8,INCREMENT);
 	if(ret!=0){
 		Serial.print("Erreur dans l'initialisation: ");
@@ -62,17 +62,17 @@ void loop() {
 //	uint32_t time = millis();
 //	uint64_t d = h.GetDistance();
 //	if(previous_time!=0) {
-    if(button.detect()) {
-		Pulse(2);
+  //   if(button.detect()) {
+		  Pulse(2);
   		Serial.print("rincr=");
-  		Serial.println((int32_t)h.GetTimerCounter());
-/*  		Serial.print("\tdist=");
+  		Serial.print(h.GetTimerCounter());
+  		Serial.print("\tdist=");
   		Serial.print(h.GetDistance());
   		Serial.print("\tspeed=");
   		Serial.println(h.GetSpeed());
-*/  //	}
+  //	}
   //	previous_distance = d;
   //	previous_time = time;
-    }
-    delay(50);
+    // }
+    // delay(50);
 }
