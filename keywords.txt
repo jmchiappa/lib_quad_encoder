@@ -6,15 +6,16 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-StepMotor	KEYWORD1	StepMotor
+INC_ENCODER	KEYWORD1	INC_ENCODER
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-SetDirPolarity		KEYWORD2
-SetMinPulse			KEYWORD2
-SetSpeedTreshold	KEYWORD2
-move				KEYWORD2
+ResetCounter		KEYWORD2
+begin				KEYWORD2
+GetTimerCounter		KEYWORD2
+GetDistance			KEYWORD2
+GetSpeed			KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
