@@ -53,12 +53,12 @@ int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Di
 
 		encoder.IC1Filter = 0x0F;
 		encoder.IC1Polarity = TIM_INPUTCHANNELPOLARITY_RISING;
-		encoder.IC1Prescaler = TIM_ICPSC_DIV4;
+		encoder.IC1Prescaler = TIM_ICPSC_DIV1;
 		encoder.IC1Selection = TIM_ICSELECTION_DIRECTTI;
 
 		encoder.IC2Filter = 0x0F;
 		encoder.IC2Polarity = TIM_INPUTCHANNELPOLARITY_FALLING;
-		encoder.IC2Prescaler = TIM_ICPSC_DIV4;
+		encoder.IC2Prescaler = TIM_ICPSC_DIV1;
 		encoder.IC2Selection = TIM_ICSELECTION_DIRECTTI;
 
 		if (HAL_TIM_Encoder_Init(&timer, &encoder) != HAL_OK) {
