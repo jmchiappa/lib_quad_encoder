@@ -4,6 +4,10 @@
 
 //#define DEBUG(x,y)	Serial.print(x); Serial.print(y)
 #define DEBUG(x,y)
+
+#define MAXPOSIVE_32BITS	(0x7FFFFFFF)
+#define MAXPOSIVE_16BITS	(0x7FFF)
+
 static PinName g_ch1_pin = NC;
 static PinName g_ch2_pin = NC;
 
@@ -16,8 +20,8 @@ int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Di
 	distance=0;
 	counter=0;
 	msb=0;
-	TIM_TypeDef *pch1_tim;
-	TIM_TypeDef *pch2_tim;
+	TIM_TypeDef *pch1_tim=NULL;
+	TIM_TypeDef *pch2_tim=NULL;
 
 	PinName pch1 = digitalPinToPinName(Pin_Channel1);
 	PinName pch2 = digitalPinToPinName(Pin_Channel2);
@@ -32,15 +36,15 @@ int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Di
 	// 2. Check if timer handler is the same for both pins
 		if(pin_in_pinmap(pch1, PinMap_INC_ENC))
 			pch1_tim=(TIM_TypeDef *)pinmap_peripheral(pch1, PinMap_INC_ENC);
-		if(pin_in_pinmap(pch1, PinMap_INC_ENC))
+		if(pin_in_pinmap(pch2, PinMap_INC_ENC))
 			pch2_tim=(TIM_TypeDef *)pinmap_peripheral(pch2, PinMap_INC_ENC);
 		if(pch1_tim!=pch2_tim)
 			return 1;	// exit if handler is different
 
 		if((pch1_tim==TIM2)||(pch1_tim==TIM5))
-			Max_Cnt = 1<<32;
+			Max_Cnt = MAXPOSIVE_32BITS;
 		if((pch1_tim==TIM1)||(pch1_tim==TIM3)||(pch1_tim==TIM4)||(pch1_tim==TIM8))
-			Max_Cnt = 1<<16;
+			Max_Cnt = MAXPOSIVE_16BITS;
 		_tim = pch1_tim; // store the timer instance
 	// 3. initialize timer for inc encoder mode
 		timer.Instance = pch1_tim;	// get the linked timer
