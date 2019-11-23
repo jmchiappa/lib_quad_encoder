@@ -170,7 +170,7 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim) {
 	// DEBUG("g_ch2_pin=",g_ch1_pin);
 	/*##-1- Enable peripherals and GPIO Clocks #################################*/
 	/* TIMx Peripheral clock enable */
-	timer_enable_clock(htim);
+	enableTimerClock(htim);
 
 	/* Enable GPIO Channels Clock */
 	/* Enable GPIO clock ****************************************/
