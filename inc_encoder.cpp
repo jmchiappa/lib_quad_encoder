@@ -108,7 +108,7 @@ int64_t INC_ENCODER::GetTimerCounter(void) {
 	DEBUG("-_tim->CNT=",_tim->CNT);
 	DEBUG("-msb*Max_Cnt=",msb*Max_Cnt);
 	DEBUG("","\n");
-	return msb*(int64_t)Max_Cnt + counter;
+	return (int64_t)(msb*(int64_t)Max_Cnt + (int64_t)(counter>>1));
 	//return counter;
 }
 
