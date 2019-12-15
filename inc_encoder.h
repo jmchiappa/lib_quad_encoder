@@ -106,7 +106,6 @@ class INC_ENCODER
 		uint32_t Max_Cnt;
 		TIM_TypeDef *_tim;
         bool setValue=false;
-        bool Update=false;
 };
 
 #ifdef __cplusplus
