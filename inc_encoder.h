@@ -89,6 +89,7 @@ class INC_ENCODER
 		int64_t GetDistance(void);
 		int32_t GetSpeed(void);
 		void ResetCounter(void);
+        void setCounterValue(int32_t value);
 	private:
         enum {FORWARD=0,BACKWARD} dir=BACKWARD;
 		TIM_Encoder_InitTypeDef encoder;
@@ -104,6 +105,8 @@ class INC_ENCODER
 		int64_t distance;
 		uint32_t Max_Cnt;
 		TIM_TypeDef *_tim;
+        bool setValue=false;
+        bool Update=false;
 };
 
 #ifdef __cplusplus

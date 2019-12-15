@@ -16,7 +16,10 @@ begin				KEYWORD2
 GetTimerCounter		KEYWORD2
 GetDistance			KEYWORD2
 GetSpeed			KEYWORD2
+setCounterValue		KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
+FORWARD
+BACKWARD

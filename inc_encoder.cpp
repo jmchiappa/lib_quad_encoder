@@ -20,6 +20,7 @@ int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Di
 	distance=0;
 	counter=0;
 	msb=0;
+	setValue=false;
 	TIM_TypeDef *pch1_tim=NULL;
 	TIM_TypeDef *pch2_tim=NULL;
 
@@ -85,24 +86,30 @@ int64_t INC_ENCODER::GetTimerCounter(void) {
 	DEBUG("-counter=",counter);
 	DEBUG("-_tim->CNT=",_tim->CNT);
 	DEBUG("-msb=",msb);
-	if(_tim->CNT!=counter) {
-		if((int32_t)(counter - _tim->CNT)>(int32_t)(Max_Cnt>>1)) {	// roll over ?
-			msb++;		// increment number of step
-			roll=true;
+	if(!setValue) {
+		if(_tim->CNT!=counter) {
+			if((int32_t)(counter - _tim->CNT)>(int32_t)(Max_Cnt>>1)) {	// roll over ?
+				msb++;		// increment number of step
+				roll=true;
+			}
+			if((int32_t)(_tim->CNT - counter)>(int32_t)(Max_Cnt>>1)) {	// roll over ?
+				DEBUG("(int32_t)(_tim->CNT - counter)=",(int32_t)(_tim->CNT - counter));
+				msb--;
+				roll=true;
+			}
+			if(roll==false) { // timer counter has not roll over
+				if(_tim->CNT>counter)
+					dir=FORWARD;
+				if(_tim->CNT<counter)
+					dir=BACKWARD;
+			}
+			counter = _tim->CNT; 
 		}
-		if((int32_t)(_tim->CNT - counter)>(int32_t)(Max_Cnt>>1)) {	// roll over ?
-			DEBUG("(int32_t)(_tim->CNT - counter)=",(int32_t)(_tim->CNT - counter));
-			msb--;
-			roll=true;
-		}
-		if(roll==false) { // timer counter has not roll over
-			if(_tim->CNT>counter)
-				dir=FORWARD;
-			if(_tim->CNT<counter)
-				dir=BACKWARD;
-		}
-		counter = _tim->CNT; 
+	}else{
+		setValue=false;
+		_tim->CNT=counter;
 	}
+
 	DEBUG("\nSORTIE : direction=",dbg_str[dir]);
 	DEBUG("-counter=",counter);
 	DEBUG("-_tim->CNT=",_tim->CNT);
@@ -132,8 +139,12 @@ int32_t INC_ENCODER::GetSpeed(void) {
 }
 
 void INC_ENCODER::ResetCounter(void) {
-	_tim->CNT=0;
-	counter=0;
+	setCounterValue(0);
+}
+
+void INC_ENCODER::setCounterValue(int32_t value) {
+	this->setValue = true; // tim->CNT will be changed later in GetCounter (for safe-thread)
+	counter=value<<1; //encoder step is 2
 	msb=0;
 	previous_distance=0;
 	previous_time =0;
