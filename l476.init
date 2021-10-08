@@ -1,0 +1,165 @@
+
+const PinMap PinMap_INC_ENC[] = {
+    {PA_0,   TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 1, 0)},  // TIM2_CH1
+//    {PA_0,   TIM5,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM5, 1, 0)},  // TIM5_CH1 - (used by us_ticker)
+//  {PA_1,   TIM15,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM15, 1, 1)},  // TIM15_CH1N
+    {PA_1,   TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 2, 0)},  // TIM2_CH2
+//  {PA_1,   TIM5,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM5, 2, 0)},  // TIM5_CH2 - (used by us_ticker)
+//  {PA_2,   TIM15,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM15, 1, 0)},  // TIM15_CH1 - STLink Tx
+    {PA_2,   TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 3, 0)},  // TIM2_CH3 - STLink Tx
+//    {PA_2,   TIM5,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM5, 3, 0)},  // TIM5_CH3 - (used by us_ticker)
+//  {PA_3,   TIM15,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM15, 2, 0)},  // TIM15_CH2 - STLink Rx
+    {PA_3,   TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 4, 0)},  // TIM2_CH4 - STLink Rx
+//    {PA_3,   TIM5,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM5, 4, 0)},  // TIM5_CH4 - (used by us_ticker)
+    {PA_5,   TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 1, 0)},  // TIM2_CH1
+//  {PA_5,   TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 1, 1)},  // TIM8_CH1N
+//  {PA_6,   TIM16,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM16, 1, 0)},  // TIM16_CH1
+    {PA_6,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 1, 0)},  // TIM3_CH1
+//  {PA_7,   TIM17,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM17, 1, 0)},  // TIM17_CH1
+//  {PA_7,   TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 1, 1)},  // TIM1_CH1N
+    {PA_7,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 2, 0)},  // TIM3_CH2
+//  {PA_7,   TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 1, 1)},  // TIM8_CH1N
+    {PA_8,   TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 1, 0)},  // TIM1_CH1
+    {PA_9,   TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 2, 0)},  // TIM1_CH2
+/*
+    {PA_10,  TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 3, 0)},  // TIM1_CH3
+    {PA_11,  TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 4, 0)},  // TIM1_CH4
+*/
+    {PA_15,  TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 1, 0)},  // TIM2_CH1
+//  {PB_0,   TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 2, 1)},  // TIM1_CH2N
+//  {PB_0,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 3, 0)},  // TIM3_CH3
+    {PB_0,   TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 2, 1)},  // TIM8_CH2N
+//  {PB_1,   TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 3, 1)},  // TIM1_CH3N
+//  {PB_1,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 4, 0)},  // TIM3_CH4
+    {PB_1,   TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 3, 1)},  // TIM8_CH3N
+    {PB_3,   TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 2, 0)},  // TIM2_CH2
+    {PB_4,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 1, 0)},  // TIM3_CH1
+    {PB_5,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 2, 0)},  // TIM3_CH2
+//  {PB_6,   TIM16,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM16, 1, 1)},  // TIM16_CH1N
+    {PB_6,   TIM4,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM4, 1, 0)},  // TIM4_CH1
+//  {PB_7,   TIM17,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM17, 1, 1)},  // TIM17_CH1N
+    {PB_7,   TIM4,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM4, 2, 0)},  // TIM4_CH2
+//  {PB_8,   TIM16,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM16, 1, 0)},  // TIM16_CH1
+//  {PB_8,   TIM4,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM4, 3, 0)},  // TIM4_CH3
+//    {PB_9,   TIM17,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM17, 1, 0)},  // TIM17_CH1
+/*
+    {PB_9,   TIM4,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM4, 4, 0)},  // TIM4_CH4
+    {PB_10,  TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 3, 0)},  // TIM2_CH3
+    {PB_11,  TIM2,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM2, 4, 0)},  // TIM2_CH4
+*/
+//    {PB_13,  TIM15,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM15, 1, 1)},  // TIM15_CH1N
+//    {PB_13,  TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 1, 1)},  // TIM1_CH1N
+//    {PB_14,  TIM15,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM15, 1, 0)},  // TIM15_CH1
+//    {PB_14,  TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 2, 1)},  // TIM1_CH2N
+//  {PB_14,  TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 2, 1)},  // TIM8_CH2N
+    {PB_15,  TIM15,  STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF14_TIM15, 2, 0)},  // TIM15_CH2
+//  {PB_15,  TIM1,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF1_TIM1, 3, 1)},  // TIM1_CH3N
+//  {PB_15,  TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 3, 1)},  // TIM8_CH3N
+//  {PC_6,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 1, 0)},  // TIM3_CH1
+    {PC_6,   TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 1, 0)},  // TIM8_CH1
+//  {PC_7,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 2, 0)},  // TIM3_CH2
+    {PC_7,   TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 2, 0)},  // TIM8_CH2
+//  {PC_8,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 3, 0)},  // TIM3_CH3
+//    {PC_8,   TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 3, 0)},  // TIM8_CH3
+//  {PC_9,   TIM3,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF2_TIM3, 4, 0)},  // TIM3_CH4
+//    {PC_9,   TIM8,   STM_PIN_DATA_EXT(STM_MODE_AF_PP, GPIO_PULLUP, GPIO_AF3_TIM8, 4, 0)},  // TIM8_CH4
+    {NC,    NP,    0}
+};
+
+void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim) {
+	GPIO_InitTypeDef GPIO_InitStruct;
+	GPIO_TypeDef *port;
+	uint32_t function_ch1 = pinmap_function(g_ch1_pin, PinMap_INC_ENC);
+	uint32_t function_ch2 = pinmap_function(g_ch2_pin, PinMap_INC_ENC);
+	// DEBUG("g_ch1_pin=",g_ch1_pin);
+	// DEBUG("g_ch2_pin=",g_ch1_pin);
+	/*##-1- Enable peripherals and GPIO Clocks #################################*/
+	/* TIMx Peripheral clock enable */
+	enableTimerClock(htim);
+
+	/* Enable GPIO Channels Clock */
+	/* Enable GPIO clock ****************************************/
+	port = set_GPIO_Port_Clock(STM_PORT(g_ch1_pin));
+
+	/* Common configuration for all channels */
+	GPIO_InitStruct.Mode 		= GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull 		= GPIO_PULLUP;
+	GPIO_InitStruct.Speed 		= GPIO_SPEED_FREQ_HIGH;
+
+	GPIO_InitStruct.Pin 	 	= STM_GPIO_PIN(g_ch1_pin);
+	GPIO_InitStruct.Alternate 	= STM_PIN_AFNUM(function_ch1);
+	HAL_GPIO_Init(port, &GPIO_InitStruct);
+
+	port = set_GPIO_Port_Clock(STM_PORT(g_ch2_pin));
+	GPIO_InitStruct.Pin 	 	= STM_GPIO_PIN(g_ch2_pin);
+	GPIO_InitStruct.Alternate 	= STM_PIN_AFNUM(function_ch2);
+	HAL_GPIO_Init(port, &GPIO_InitStruct);
+	
+//	HAL_NVIC_SetPriority(TIM1_IRQn, 0, 1);
+
+//	HAL_NVIC_EnableIRQ(TIM1_IRQn);
+}
+
+int32_t INC_ENCODER::_init(uint32_t Pin_Channel1, uint32_t Pin_Channel2) {
+	TIM_TypeDef *pch1_tim=NULL;
+	TIM_TypeDef *pch2_tim=NULL;
+
+	PinName pch1 = digitalPinToPinName(Pin_Channel1);
+	PinName pch2 = digitalPinToPinName(Pin_Channel2);
+	DEBUG("pch1=",pch1);
+	DEBUG("pch2=",pch2);
+	ResetCounter();
+	// 1. Chack if both pins exist
+	if((pch1!=NC)&&(pch2!=NC))
+	{
+		g_ch1_pin = pch1;
+		g_ch2_pin = pch2;
+	// 2. Check if timer handler is the same for both pins
+		if(pin_in_pinmap(pch1, PinMap_INC_ENC))
+			pch1_tim=(TIM_TypeDef *)pinmap_peripheral(pch1, PinMap_INC_ENC);
+		if(pin_in_pinmap(pch2, PinMap_INC_ENC))
+			pch2_tim=(TIM_TypeDef *)pinmap_peripheral(pch2, PinMap_INC_ENC);
+		if(pch1_tim!=pch2_tim)
+			return 1;	// exit if handler is different
+
+		if((pch1_tim==TIM2)||(pch1_tim==TIM5))
+			Max_Cnt = MAXPOSIVE_32BITS;
+		if((pch1_tim==TIM1)||(pch1_tim==TIM3)||(pch1_tim==TIM4)||(pch1_tim==TIM8))
+			Max_Cnt = MAXPOSIVE_16BITS;
+		_tim = pch1_tim; // store the timer instance
+	// 3. initialize timer for inc encoder mode
+		timer.Instance = pch1_tim;	// get the linked timer
+		timer.Init.Period = 0xFFFF;
+		timer.Init.CounterMode = TIM_COUNTERMODE_UP;
+		timer.Init.Prescaler = 0;
+		timer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+		
+		encoder.EncoderMode = TIM_ENCODERMODE_TI12;
+
+		encoder.IC1Filter = 0x0F;
+		encoder.IC1Polarity = TIM_INPUTCHANNELPOLARITY_RISING;
+		encoder.IC1Prescaler = TIM_ICPSC_DIV1;
+		encoder.IC1Selection = TIM_ICSELECTION_DIRECTTI;
+
+		encoder.IC2Filter = 0x0F;
+		encoder.IC2Polarity = TIM_INPUTCHANNELPOLARITY_FALLING;
+		encoder.IC2Prescaler = TIM_ICPSC_DIV1;
+		encoder.IC2Selection = TIM_ICSELECTION_DIRECTTI;
+
+		if (HAL_TIM_Encoder_Init(&timer, &encoder) != HAL_OK) {
+			Error_Handler();
+			return 2;
+		}
+
+		if(HAL_TIM_Encoder_Start_IT(&timer,TIM_CHANNEL_1)!=HAL_OK){
+			Error_Handler();
+			return 2;
+		}
+		return 0;
+	}
+	return 3;	
+}
+
+inline int64_t INC_ENCODER::convertTickForThisMCU(uint32_t tickCount) {
+	return (int64_t)tickCount>>1;
+}
