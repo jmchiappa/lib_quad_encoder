@@ -2,7 +2,7 @@
 #include "analog.h"
 #include "timer.h"
 
-//#define DEBUG(x,y)	Serial.print(x); Serial.print(y)
+// #define DEBUG(x,y)	Serial.print(x); Serial.print(y)
 #define DEBUG(x,y)
 
 #define MAXPOSIVE_32BITS	(0x7FFFFFFF)
@@ -32,7 +32,7 @@ int32_t INC_ENCODER::begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Di
 	return _init(Pin_Channel1,Pin_Channel2);
 }
 
-int64_t INC_ENCODER::GetTimerCounter(void) {
+int32_t INC_ENCODER::GetTimerCounter(void) {
 	bool roll=false;
 	DEBUG("\nENTREE : direction=",dbg_str[dir]);
 	DEBUG("-counter=",counter);
@@ -67,7 +67,7 @@ int64_t INC_ENCODER::GetTimerCounter(void) {
 	DEBUG("-_tim->CNT=",_tim->CNT);
 	DEBUG("-msb*Max_Cnt=",msb*Max_Cnt);
 	DEBUG("","\n");
-	return (int64_t)(msb*(int64_t)Max_Cnt + convertTickForThisMCU(counter));
+	return (int32_t)(msb*(int32_t)Max_Cnt + convertTickForThisMCU(counter));
 	//return counter;
 }
 

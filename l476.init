@@ -157,9 +157,10 @@ int32_t INC_ENCODER::_init(uint32_t Pin_Channel1, uint32_t Pin_Channel2) {
 		}
 		return 0;
 	}
+	Error_Handler();
 	return 3;	
 }
 
-inline int64_t INC_ENCODER::convertTickForThisMCU(uint32_t tickCount) {
-	return (int64_t)tickCount>>1;
+inline int32_t INC_ENCODER::convertTickForThisMCU(uint32_t tickCount) {
+	return (int32_t)tickCount>>1;
 }

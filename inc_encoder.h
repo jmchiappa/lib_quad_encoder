@@ -7,23 +7,20 @@
 extern "C" {
 #endif
 
-void TIMx_DMA_IRQHandler(void);
-void ws2812_update(void);
-
 
 class INC_ENCODER
 {
 	public:
 		INC_ENCODER(void);      // constructor
 		int32_t begin(uint32_t Pin_Channel1, uint32_t Pin_Channel2,float Dist_per_mm);
-		int64_t GetTimerCounter(void);
+		int32_t GetTimerCounter(void);
 		int64_t GetDistance(void);
 		int32_t GetSpeed(void);
 		void ResetCounter(void);
         void setCounterValue(int32_t value);
 	private:
         int32_t _init(uint32_t Pin_Channel1, uint32_t Pin_Channel2);
-        int64_t convertTickForThisMCU(uint32_t tickCount);
+        int32_t convertTickForThisMCU(uint32_t tickCount);
         enum {FORWARD=0,BACKWARD} dir=BACKWARD;
 		TIM_Encoder_InitTypeDef encoder;
 		TIM_HandleTypeDef timer;
