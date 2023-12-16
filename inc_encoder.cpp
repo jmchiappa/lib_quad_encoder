@@ -17,6 +17,8 @@ const char *dbg_str[]={"Avance","Recule"};
 # include "l476.init"
 #elif defined(STM32WB55xx)
 # include "wb55.init"
+#elif defined(STM32L432xx)
+# include "l432.init"
 #else
 # error "from library quad encoder : MCU not supported"
 #endif
