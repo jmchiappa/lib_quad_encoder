@@ -122,10 +122,14 @@ int32_t INC_ENCODER::_init(uint32_t Pin_Channel1, uint32_t Pin_Channel2) {
 		if(pch1_tim!=pch2_tim)
 			return 1;	// exit if handler is different
 
-		if((pch1_tim==TIM2)||(pch1_tim==TIM5))
+		if((pch1_tim==TIM2)||(pch1_tim==TIM5)) {
 			Max_Cnt = MAXPOSIVE_32BITS;
-		if((pch1_tim==TIM1)||(pch1_tim==TIM3)||(pch1_tim==TIM4)||(pch1_tim==TIM8))
+			type = ENCODER::TIMERS::TIMER_32BITS;
+		}
+		if((pch1_tim==TIM1)||(pch1_tim==TIM3)||(pch1_tim==TIM4)||(pch1_tim==TIM8)) {
 			Max_Cnt = MAXPOSIVE_16BITS;
+			type = ENCODER::TIMERS::TIMER_16BITS;
+		}
 		_tim = pch1_tim; // store the timer instance
 	// 3. initialize timer for inc encoder mode
 		timer.Instance = pch1_tim;	// get the linked timer
@@ -150,8 +154,8 @@ int32_t INC_ENCODER::_init(uint32_t Pin_Channel1, uint32_t Pin_Channel2) {
 			Error_Handler();
 			return 2;
 		}
-
-		if(HAL_TIM_Encoder_Start_IT(&timer,TIM_CHANNEL_1)!=HAL_OK){
+		LL_TIM_EnableUpdateEvent(_tim); // enable UIF
+		if(start()!=0){
 			Error_Handler();
 			return 2;
 		}
@@ -161,6 +165,22 @@ int32_t INC_ENCODER::_init(uint32_t Pin_Channel1, uint32_t Pin_Channel2) {
 	return 3;	
 }
 
+int32_t INC_ENCODER::start() {
+	if(HAL_TIM_Encoder_Start_IT(&timer,TIM_CHANNEL_1)!=HAL_OK){
+		Error_Handler();
+		return 2;
+	}
+	return 0;
+}
+
+int32_t INC_ENCODER::stop() {
+	if(HAL_TIM_Encoder_Stop_IT(&timer,TIM_CHANNEL_1)!=HAL_OK){
+		Error_Handler();
+		return 2;
+	}
+	return 0;
+}
+
 inline int32_t INC_ENCODER::convertTickForThisMCU(uint32_t tickCount) {
-	return (int32_t)tickCount;
+	return (int32_t)tickCount>>1;
 }

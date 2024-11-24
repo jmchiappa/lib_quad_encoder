@@ -98,6 +98,8 @@ int32_t INC_ENCODER::_init(uint32_t Pin_Channel1, uint32_t Pin_Channel2) {
 			return 2;
 		}
 
+		LL_TIM_EnableUpdateEvent(_tim); // enable UIF
+
 		if(HAL_TIM_Encoder_Start_IT(&timer,TIM_CHANNEL_1)!=HAL_OK){
 			Error_Handler();
 			return 2;
@@ -106,6 +108,22 @@ int32_t INC_ENCODER::_init(uint32_t Pin_Channel1, uint32_t Pin_Channel2) {
 	}
 	Error_Handler();
 	return 3;	
+}
+
+int32_t INC_ENCODER::start() {
+	if(HAL_TIM_Encoder_Start_IT(&timer,TIM_CHANNEL_1)!=HAL_OK){
+		Error_Handler();
+		return 2;
+	}
+	return 0;
+}
+
+int32_t INC_ENCODER::stop() {
+	if(HAL_TIM_Encoder_Stop_IT(&timer,TIM_CHANNEL_1)!=HAL_OK){
+		Error_Handler();
+		return 2;
+	}
+	return 0;
 }
 
 inline int32_t INC_ENCODER::convertTickForThisMCU(uint32_t tickCount) {

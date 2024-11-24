@@ -7,6 +7,12 @@
 extern "C" {
 #endif
 
+namespace ENCODER {
+	enum TIMERS {
+		TIMER_16BITS,
+		TIMER_32BITS
+	};
+};
 
 class INC_ENCODER
 {
@@ -19,23 +25,27 @@ class INC_ENCODER
 		void ResetCounter(void);
         void setCounterValue(int32_t value);
 	private:
-        int32_t _init(uint32_t Pin_Channel1, uint32_t Pin_Channel2);
-        int32_t convertTickForThisMCU(uint32_t tickCount);
-        enum {FORWARD=0,BACKWARD} dir=BACKWARD;
+		// provide by specific driver
+		int32_t start(void);
+		int32_t stop(void);
+		int32_t _init(uint32_t Pin_Channel1, uint32_t Pin_Channel2);
+		int32_t convertTickForThisMCU(uint32_t tickCount);
+		enum {FORWARD=0,BACKWARD} dir=BACKWARD;
 		TIM_Encoder_InitTypeDef encoder;
 		TIM_HandleTypeDef timer;
 		float c;
-		uint32_t counter;
+		int32_t counter;
 		int8_t msb;
 		//uint32_t previous_counter;
 		//int32_t previous_msb;
 		int64_t previous_distance=0;;
 		uint64_t previous_time;
         //uint32_t previous_counter;
-		int64_t distance;
+		// int64_t distance;
 		uint32_t Max_Cnt;
 		TIM_TypeDef *_tim;
-        bool setValue=false;
+		// bool setValue=false;
+		uint8_t type;
 };
 
 #ifdef __cplusplus
